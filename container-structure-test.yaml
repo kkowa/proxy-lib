@@ -23,7 +23,6 @@ fileExistenceTests:
 fileContentTests: []
 
 metadataTest:
-  exposedPorts: ["1080", "8080"]
   entrypoint: ["docker-entrypoint.sh"]
   cmd: ["start.sh"]
   workdir: "/var/app"
