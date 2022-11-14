@@ -1,0 +1,17 @@
+**
+
+# Allowed things
+!config/**
+!scripts/**
+!src/**
+!Cargo.lock
+!Cargo.toml
+
+# Extra exclude from allowed things
+**/*~
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+**/__pycache__
+**/*.md
+**/*.rst

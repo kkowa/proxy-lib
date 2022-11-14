@@ -1,0 +1,18 @@
+version: "3"
+
+volumes:
+  rstarget: {}
+
+services:
+  app:
+    image: localhost:5000/kkowa/proxy-lib:local
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: development
+    volumes:
+      - .:/var/app:z
+      - rstarget:/var/app/target
+    environment:
+      RUST_BACKTRACE: 1
+    command: cargo watch --no-gitignore --why --exec "run -- --verbosity debug"

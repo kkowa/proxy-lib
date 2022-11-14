@@ -1,0 +1,36 @@
+{
+  "files.eol": "\n",
+  "files.associations": {
+    ".devcontainer/override.yml": "dockercompose",
+    ".ignore": "ignore",
+  },
+  "files.insertFinalNewline": true,
+  //
+  // Formatting
+  // ------------------------------------------------------------------------
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+  },
+  "yaml.format.enable": true,
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  //
+  // Linting
+  // ------------------------------------------------------------------------
+  // cspell
+  "cSpell.words": [
+    "clippy",
+    "cobertura",
+    "jsonpath",
+    "jsonschema",
+    "kkowa",
+    "kubernetes",
+    "PINENTRY",
+    "rstest",
+    "rustls",
+    "serde",
+    "tungstenite"
+  ],
+}

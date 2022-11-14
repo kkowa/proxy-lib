@@ -1,0 +1,49 @@
+default_stages: [commit]
+fail_fast: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
+  - repo: local
+    hooks:
+      - id: generate
+        name: Generate codes from schemas
+        language: system
+        types: [directory]
+        pass_filenames: false
+        entry: make generate
+
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: cargo fmt
+        language: system
+        types: [rust]
+        entry: cargo fmt
+        args: [--]
+
+      - id: cargo-clippy
+        name: cargo clippy
+        language: system
+        types: [rust]
+        pass_filenames: false
+        entry: cargo clippy
+        args: [--fix, --allow-staged, --allow-no-vcs]
+
+      - id: cargo-check
+        name: cargo check
+        language: system
+        types: [rust]
+        pass_filenames: false
+        entry: cargo check
+
+      - id: cargo-test
+        name: cargo test
+        language: system
+        types: [rust]
+        pass_filenames: false
+        entry: cargo test
+        args: [--workspace]

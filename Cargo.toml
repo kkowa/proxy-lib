@@ -1,0 +1,27 @@
+[package]
+name = "kkowa-proxy-lib"
+version = "0.1.0"
+edition = "2021"
+authors = ["Yuchan Lee <lasuillard@gmail.com>"]
+
+[dependencies]
+async-std = "1.12"
+async-trait = "0.1"
+base64 = "0.13"
+derive_builder = "0.11"
+getset = "0.1"
+http = "0.2"
+hyper = { version = "0.14", features = ["full"] }
+lazy_static = "1.4"
+prometheus = "0.13"                                                   # TODO: Replace to metrics
+rustls = { version = "0.20", features = ["dangerous_configuration"] }
+thiserror = "1.0"
+tokio = { version = "1.20", features = ["full"] }
+tracing = "0.1"
+
+[dev-dependencies]
+anyhow = "1.0"
+httpmock = "0.6"
+hyper-proxy = "0.9"
+portpicker = "0.1"
+rstest = "0.15"
