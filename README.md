@@ -1,5 +1,8 @@
 # proxy-lib
 
+[![Build and Push](https://github.com/kkowa/proxy-lib/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/kkowa/proxy-lib/actions/workflows/build-and-push.yml)
+[![codecov](https://codecov.io/gh/kkowa/proxy-lib/branch/main/graph/badge.svg?token=pQIx1cYxr3)](https://codecov.io/gh/kkowa/proxy-lib)
+
 Man-in-the-middle proxy library for kkowa proxy collector. Currently being used for internal purpose only.
 
 ## 🧰 Tech Stack
