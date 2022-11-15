@@ -87,13 +87,10 @@ async fn serve(
     flow: Flow,
     req: hyper::Request<hyper::Body>,
 ) -> Result<hyper::Response<hyper::Body>, hyper::Error> {
-    // Timer's `.observe_duration()` not necessarily called as it calls calls `.observe()` via `.drop()` eventually
-    // See: https://docs.rs/prometheus/0.13.1/i686-pc-windows-msvc/src/prometheus/histogram.rs.html#612-614
-    let _timer = metrics::HTTP_REQ_HISTOGRAM
-        .with_label_values(&["all"])
-        .start_timer();
+    metrics::HTTP_REQ_COUNTER.increment(1);
 
-    metrics::HTTP_REQ_COUNTER.inc();
+    // Measure request duration
+    let start = std::time::Instant::now();
 
     let (version, method, uri) = (
         req.version(),
@@ -109,14 +106,18 @@ async fn serve(
     );
 
     // Simple route implementation
-    match (method, uri) {
+    let result = match (method, uri) {
         // CONNECT *
         // TODO: Only tunneling for now, WebSocket and HTTPS interception currently not supported
         (Method::CONNECT, _) => connect(req).await,
 
         // Fallback; delegate to proxy
         (_, _) => proxy(flow, req).await,
-    }
+    };
+
+    metrics::HTTP_REQ_HISTOGRAM.record(start.elapsed().as_secs_f64());
+
+    result
 }
 
 // BUG: CONNECT tunnel does not enforce proxy authorization for now (handler called at `proxy()` only)
