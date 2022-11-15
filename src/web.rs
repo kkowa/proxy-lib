@@ -1,9 +1,7 @@
 use std::{convert::Infallible, net::SocketAddr};
 
-use hyper::{header,
-            service::{make_service_fn, service_fn},
-            Error, Method, StatusCode};
-use prometheus::{Encoder, TextEncoder};
+use hyper::{service::{make_service_fn, service_fn},
+            Error, StatusCode};
 use tracing::info;
 
 /// HTTP server instance for internal purpose, such as serving health checks, metrics, etc.
@@ -51,38 +49,9 @@ async fn serve(
     // Simple route implementation
 
     match (method, uri) {
-        // GET /(ht|healthz)
-        (Method::GET, "/ht" | "/healthz") => healthz().await,
-
-        // GET /metrics
-        (Method::GET, "/metrics") => metrics().await,
-
         // Fallback
         (_, _) => not_found().await,
     }
-}
-
-async fn healthz() -> Result<hyper::Response<hyper::Body>, hyper::Error> {
-    Ok(hyper::Response::builder()
-        .status(StatusCode::OK)
-        .header(header::CONTENT_TYPE, "text/plain")
-        .body("OK".into())
-        .unwrap())
-}
-
-async fn metrics() -> Result<hyper::Response<hyper::Body>, hyper::Error> {
-    let encoder = TextEncoder::new();
-    let metrics_families = prometheus::gather();
-    let mut buffer = vec![];
-    encoder.encode(&metrics_families, &mut buffer).unwrap();
-
-    let response = hyper::Response::builder()
-        .status(StatusCode::OK)
-        .header(header::CONTENT_TYPE, encoder.format_type())
-        .body(buffer.into())
-        .unwrap();
-
-    Ok(response)
 }
 
 async fn not_found() -> Result<hyper::Response<hyper::Body>, hyper::Error> {
@@ -95,32 +64,7 @@ async fn not_found() -> Result<hyper::Response<hyper::Body>, hyper::Error> {
 #[cfg(test)]
 mod tests {
     use anyhow::Result;
-    use hyper::{body::to_bytes, header, StatusCode};
-
-    #[tokio::test]
-    async fn healthz() -> Result<()> {
-        let resp = super::healthz().await?;
-
-        assert_eq!(resp.status(), StatusCode::OK);
-        assert_eq!(to_bytes(resp.into_body()).await?.to_vec(), b"OK");
-
-        Ok(())
-    }
-
-    #[tokio::test]
-    async fn metrics() -> Result<()> {
-        crate::metrics::HTTP_REQ_COUNTER.inc();
-        let resp = super::metrics().await?;
-
-        assert_eq!(resp.status(), StatusCode::OK);
-        assert!(resp.headers().contains_key(header::CONTENT_TYPE));
-        assert!(to_bytes(resp.into_body())
-            .await?
-            .to_vec()
-            .starts_with(b"# HELP"));
-
-        Ok(())
-    }
+    use hyper::{body::to_bytes, StatusCode};
 
     #[tokio::test]
     async fn not_found() -> Result<()> {
