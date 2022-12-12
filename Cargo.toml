@@ -17,7 +17,7 @@ log = "0.4"
 metrics = "0.20"
 rustls = { version = "0.20", features = ["dangerous_configuration"] }
 thiserror = "1.0"
-tokio = { version = "1.22", features = ["full"] }
+tokio = { version = "1.23", features = ["full"] }
 tracing = "0.1"
 
 [dev-dependencies]
