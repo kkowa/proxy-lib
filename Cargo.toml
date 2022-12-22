@@ -8,7 +8,7 @@ authors = ["Yuchan Lee <lasuillard@gmail.com>"]
 async-std = "1.12"
 async-trait = "0.1"
 base64 = "0.13"
-derive_builder = "0.11"
+derive_builder = "0.12"
 getset = "0.1"
 http = "0.2"
 hyper = { version = "0.14", features = ["full"] }
