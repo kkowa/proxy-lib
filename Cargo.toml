@@ -7,7 +7,7 @@ authors = ["Yuchan Lee <lasuillard@gmail.com>"]
 [dependencies]
 async-std = "1.12"
 async-trait = "0.1"
-base64 = "0.13"
+base64 = "0.20"
 derive_builder = "0.12"
 getset = "0.1"
 http = "0.2"
