@@ -16,3 +16,4 @@ services:
     environment:
       RUST_BACKTRACE: 1
     command: cargo watch --no-gitignore --why --exec "run -- --verbosity debug"
+    init: true
