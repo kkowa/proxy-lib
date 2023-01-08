@@ -24,7 +24,7 @@ fileContentTests: []
 
 metadataTest:
   entrypoint: ["docker-entrypoint.sh"]
-  cmd: ["start.sh"]
+  cmd: ["app"]
   workdir: "/var/app"
   user: worker:worker
 
